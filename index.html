@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recebimento de Produtos</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- Tela Inicial -->
+  <div id="tela-lista" class="tela">
+    <header class="cabecalho">
+      <h1>Recebimento de Produtos</h1>
+      <div class="data-hora">
+        <span id="data-atual"></span>
+      </div>
+    </header>
+
+    <div class="botoes-topo">
+      <button id="btn-cadastrar">+ Cadastrar Produto</button>
+      <button id="btn-salvar">💾 Salvar</button>
+      <button id="btn-imprimir">🖨️ Imprimir</button>
+      <button id="btn-download-pdf">📥 PDF</button>
+      <button id="btn-limpar-tudo">🗑️ Limpar Tudo</button>
+    </div>
+
+    <div id="lista-produtos" class="lista-produtos"></div>
+  </div>
+
+  <!-- Tela de Cadastro/Edição -->
+  <div id="tela-cadastro" class="tela" style="display: none;">
+    <header class="cabecalho">
+      <h1 id="titulo-cadastro">Novo Recebimento</h1>
+      <button id="btn-voltar-cadastro" class="btn-voltar">← Voltar</button>
+    </header>
+
+    <form id="form-produto">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Descrição do Produto</label>
+          <input type="text" id="descricao" required>
+        </div>
+        <div class="form-group">
+          <label>Referência</label>
+          <input type="text" id="referencia" required>
+        </div>
+        <div class="form-group">
+          <label>Cor</label>
+          <input type="text" id="cor" required>
+        </div>
+        <div class="form-group full-width">
+          <label>Tamanhos (separados por vírgula)</label>
+          <input type="text" id="tamanhos" placeholder="Ex: PP, P, M, G, GG ou 36, 38, 40...">
+        </div>
+      </div>
+
+      <div id="grade-container" class="grade-container"></div>
+      <div class="botoes-cadastro">
+        <button type="submit" class="btn-primary" id="btn-submit">Adicionar Produto</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- PDF Container -->
+  <div id="pdf-container" style="display: none;"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
