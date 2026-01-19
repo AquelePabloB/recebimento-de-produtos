@@ -702,16 +702,35 @@ async function imprimirPdf() {
 }
 
 async function baixarPdf() {
-  // ✅ BAIXAR: Gera e baixa PDF
   const pdfBlob = await gerarPdfBase64();
-  if (pdfBlob) {
-    const dataHoje = new Date().toLocaleDateString('pt-BR');
+  if (!pdfBlob) return;
+
+  const dataHoje = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+  const nomeArquivo = `Recebimento_Produtos_${dataHoje}.pdf`;
+
+  // 📱 Se estiver no celular e suportar compartilhamento
+  if (navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], nomeArquivo, { type: 'application/pdf' })] })) {
+    const file = new File([pdfBlob], nomeArquivo, { type: 'application/pdf' });
+
+    try {
+      await navigator.share({
+        title: 'Relatório de Recebimento',
+        text: 'Relatório de produtos recebidos',
+        files: [file]
+      });
+    } catch (err) {
+      console.warn('Compartilhamento cancelado:', err);
+    }
+
+  } else {
+    // 💻 Fallback: download normal (PC ou navegador antigo)
     const link = document.createElement('a');
     link.href = URL.createObjectURL(pdfBlob);
-    link.download = `Recebimento_Produtos_${dataHoje.replace(/\//g, '-')}.pdf`;
+    link.download = nomeArquivo;
     link.click();
   }
 }
+
 
 // Eventos principais
 document.getElementById('tamanhos').addEventListener('input', gerarGrade);
